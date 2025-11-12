@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Quartz 4",
+    pageTitle: "Math Note",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -16,8 +16,8 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    baseUrl: "math.keinmal.top",
+    ignorePatterns: ["private", "templates", ".obsidian", ".git", ".github"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
@@ -66,10 +66,17 @@ const config: QuartzConfig = {
         },
         keepBackground: false,
       }),
-      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
+      Plugin.ObsidianFlavoredMarkdown({
+        enableYoutubeEmbed: false,
+        enableVideoEmbed: false,
+        comments: false,
+        wikilinks: false,
+        enableInHtmlEmbed: true,
+      }),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
-      Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
+      Plugin.HardLineBreaks(),
+      // Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
     ],
@@ -87,9 +94,9 @@ const config: QuartzConfig = {
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.Favicon(),
-      Plugin.NotFoundPage(),
+      // Plugin.NotFoundPage(),
       // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
+      // Plugin.CustomOgImages(),
     ],
   },
 }

@@ -1,0 +1,37 @@
+name: Sync from notes to quartz 
+
+on:
+  push: 
+    branches: 
+      - notes
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:      
+      - name: Checkout note repository
+        uses: actions/checkout@v5
+        with:
+          repository: hiraethecho/math
+          ref: notes
+          path: notes
+      - name: commit
+        run: |
+          cd notes
+          git log -1 --pretty=%B > ~/commit
+      - name: Checkout note repository
+        uses: actions/checkout@v5
+        with:
+          repository: hiraethecho/quartz
+          ssh-key: ${{ secrets.OB_QUARTZ_PRI }}
+          path: quartz
+      - name: push
+        run: |
+          rsync -av --delete notes/ quartz/content/
+          cd quartz
+          git config --global user.name "math"
+          git config --global user.email "wyz2016zxc@icloud.com"
+          git add .
+          git commit -m "Sync note to quartz $(cat ~/commit)"
+          git push
